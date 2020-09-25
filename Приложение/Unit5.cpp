@@ -33,8 +33,8 @@ void __fastcall TForm5::Edit4KeyPress(TObject *Sender, System::WideChar &Key) {
 //---------------------------------------------------------------------------
 
 void __fastcall TForm5::FormClose(TObject *Sender, TCloseAction &Action) {
-    Form3->ADOTable1->Active = false;
-    Form3->ADOTable1->Active = true;
+	Form3->ADOTable1->Active = false;
+	Form3->ADOTable1->Active = true;
 }
 //---------------------------------------------------------------------------
 
@@ -51,8 +51,8 @@ void __fastcall TForm5::Button1Click(TObject *Sender) {
     }
     Form5->ADOQuery1->SQL->Text =
             "INSERT INTO `Книги` VALUES ('" + Form5->Edit1->Text + "','" + Form5->Edit2->Text + "','" +
-            Form5->Edit6->Text + "'," + Form5->Edit3->Text + "," + Form5->Edit4->Text + "," + Form5->Edit5->Text + ");";
-    Form5->ADOQuery1->ExecSQL();
+			Form5->ComboBox2->Items->Strings[Form5->ComboBox2->ItemIndex] + "'," + Form5->Edit3->Text + "," + Form5->Edit4->Text + "," + Form5->Edit5->Text + ");";
+	Form5->ADOQuery1->ExecSQL();
     ShowMessage("Запись добавлена");
 }
 //---------------------------------------------------------------------------
@@ -65,14 +65,22 @@ void __fastcall TForm5::FormActivate(TObject *Sender) {
     while (!Form5->ADOQuery1->Eof) {
         Form5->ComboBox1->Items->Add(Form5->ADOQuery1->FieldByName("Название книги")->Text);
         Form5->ADOQuery1->Next();
-    }
+	}
+	Form5->ComboBox2->Items->Clear();
+	Form5->ADOQuery1->Active = false;
+	Form5->ADOQuery1->SQL->Text = "SELECT `Название издательства` FROM `Издательства`";
+	Form5->ADOQuery1->Active = true;
+    while (!Form5->ADOQuery1->Eof) {
+		Form5->ComboBox2->Items->Add(Form5->ADOQuery1->FieldByName("Название издательства")->Text);
+		Form5->ADOQuery1->Next();
+	}
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm5::Button2Click(TObject *Sender) {
     Form5->ADOQuery1->SQL->Text = "DELETE * FROM Книги WHERE `Название книги` = '" +
-                                  Form5->ComboBox1->Items->Strings[Form5->ComboBox1->ItemIndex] + "';";
-    Form5->ADOQuery1->ExecSQL();
+								  Form5->ComboBox1->Items->Strings[Form5->ComboBox1->ItemIndex] + "';";
+	Form5->ADOQuery1->ExecSQL();
     ShowMessage("Запись удалена");
 }
 //---------------------------------------------------------------------------

@@ -20,11 +20,11 @@ __published:	// IDE-managed Components
 	TEdit *Edit2;
 	TEdit *Edit3;
 	TEdit *Edit5;
-	TEdit *Edit6;
 	TButton *Button1;
 	TEdit *Edit4;
 	TButton *Button2;
 	TComboBox *ComboBox1;
+	TComboBox *ComboBox2;
 	void __fastcall Edit4KeyPress(TObject *Sender, System::WideChar &Key);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall Button1Click(TObject *Sender);
