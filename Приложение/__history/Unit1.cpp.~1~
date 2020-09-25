@@ -1,0 +1,27 @@
+//---------------------------------------------------------------------------
+
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+	Form1->ADOQuery1->Active = false;
+	Form1->ADOQuery1->SQL->Text = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNSWHERE TABLE_NAME = <table_name>;";
+	Form1->ADOQuery1->Active = true;
+	while (!Form1->ADOQuery1->Eof){
+			ShowMessage(Form1->ADOQuery1->FieldByName("COLUMN_NAME")->Text);
+			Form1->ADOQuery1->Next();
+		}
+}
+//---------------------------------------------------------------------------
