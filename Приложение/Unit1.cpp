@@ -39,6 +39,8 @@ void __fastcall TForm1::ComboBox1Change(TObject *Sender) {
 
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ComboBox2Change(TObject *Sender) {
+Form1->Edit1->Visible = true;
+Form1->DateTimePicker1->Visible = false;
     if (Form1->ComboBox1->ItemIndex == 0) {
         if (Form1->ComboBox2->ItemIndex == 2) {
             Form1->Edit2->Enabled = true;
@@ -52,11 +54,15 @@ void __fastcall TForm1::ComboBox2Change(TObject *Sender) {
         } else {
             Form1->Edit2->Enabled = false;
         }
-    } else if (Form1->ComboBox1->ItemIndex == 2) {
-        if (Form1->ComboBox2->ItemIndex >= 1) {
+	} else if (Form1->ComboBox1->ItemIndex == 2) {
+		if (Form1->ComboBox2->ItemIndex >= 1 && Form1->ComboBox2->ItemIndex != 2) {
             Form1->Edit2->Enabled = true;
-        } else {
-            Form1->Edit2->Enabled = false;
+		} else if (Form1->ComboBox2->ItemIndex == 2){
+			Form1->Edit1->Visible = false;
+			Form1->DateTimePicker1->Visible = true;
+		}
+		else {
+			Form1->Edit2->Enabled = false;
         }
     }
 
@@ -67,50 +73,51 @@ void __fastcall TForm1::ComboBox2Change(TObject *Sender) {
 
 
 void __fastcall TForm1::Edit1Change(TObject *Sender) {
-    if (Form1->Edit1->Text == "" || (Form1->Edit1->Text != "" && Form1->Edit2->Text == "")) {
-        return;
-    }
 
-    Form1->ADOQuery1->Active = false;
-    if (Form1->ComboBox1->ItemIndex == 0) {
-        if (Form1->ComboBox2->ItemIndex == 2) {
+	if (Form1->Edit1->Text == "" || (Form1->Edit1->Text != "" && Form1->Edit2->Text == "" && Form1->Edit2->Enabled)) {
+		return;
+	}
 
-            Form1->ADOQuery1->SQL->Text = "SELECT * FROM `Издательства` WHERE `" +
-                                          Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] + "` BETWEEN " +
-                                          Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
+	Form1->ADOQuery1->Active = false;
+	if (Form1->ComboBox1->ItemIndex == 0) {
+		if (Form1->ComboBox2->ItemIndex == 2) {
+
+			Form1->ADOQuery1->SQL->Text = "SELECT * FROM `Издательства` WHERE `" +
+										  Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] + "` BETWEEN " +
+										  Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
         } else {
 
-            Form1->ADOQuery1->SQL->Text = "SELECT * FROM `Издательства` WHERE `" +
-                                          Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] + "` = '" +
-                                          Form1->Edit1->Text + "'";
+			Form1->ADOQuery1->SQL->Text = "SELECT * FROM `Издательства` WHERE `" +
+										  Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] + "` LIKE '%" +
+										  Form1->Edit1->Text + "%'";
         }
 
     } else if (Form1->ComboBox1->ItemIndex == 1) {
         if (Form1->ComboBox2->ItemIndex >= 3) {
             Form1->ADOQuery1->SQL->Text =
                     "SELECT * FROM `Книги` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
-                    "` BETWEEN " + Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
+					"` BETWEEN " + Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
 
         } else {
             Form1->ADOQuery1->SQL->Text =
-                    "SELECT * FROM `Книги` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
-                    "` = '" + Form1->Edit1->Text + "'";
+					"SELECT * FROM `Книги` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+					"` LIKE '%" + Form1->Edit1->Text + "%'";
 
         }
-    } else if (Form1->ComboBox1->ItemIndex == 2) {
-        if (Form1->ComboBox2->ItemIndex >= 1) {
+	} else if (Form1->ComboBox1->ItemIndex == 2) {
+		if (Form1->ComboBox2->ItemIndex >= 1 && Form1->ComboBox2->ItemIndex != 2) {
             Form1->ADOQuery1->SQL->Text =
                     "SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
-                    "` BETWEEN " + Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
+					"` BETWEEN " + Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
 
-        } else {
-            Form1->ADOQuery1->SQL->Text =
-                    "SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
-                    "` = '" + Form1->Edit1->Text + "'";
-        }
-    }
+		} else {
+			Form1->ADOQuery1->SQL->Text =
+					"SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+					"` LIKE '%" + Form1->Edit1->Text + "%'";
+		}
+	}
 
-    Form1->ADOQuery1->Active = true;
+	Form1->ADOQuery1->Active = true;
 }
 //---------------------------------------------------------------------------
 
@@ -131,6 +138,72 @@ void __fastcall TForm1::FormActivate(TObject *Sender)
 			Form1->ComboBox2->Items->Add(sales[i]);
 		}
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Edit2Change(TObject *Sender)
+{
+
+if (Form1->Edit1->Text == "" || (Form1->Edit1->Text != "" && Form1->Edit2->Text == "" && Form1->Edit2->Enabled)) {
+		return;
+	}
+
+	Form1->ADOQuery1->Active = false;
+	if (Form1->ComboBox1->ItemIndex == 0) {
+		if (Form1->ComboBox2->ItemIndex == 2) {
+
+			Form1->ADOQuery1->SQL->Text = "SELECT * FROM `Издательства` WHERE `" +
+										  Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] + "` BETWEEN " +
+										  Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
+        } else {
+
+			Form1->ADOQuery1->SQL->Text = "SELECT * FROM `Издательства` WHERE `" +
+										  Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] + "` LIKE '" +
+										  Form1->Edit1->Text + "%'";
+        }
+
+    } else if (Form1->ComboBox1->ItemIndex == 1) {
+        if (Form1->ComboBox2->ItemIndex >= 3) {
+            Form1->ADOQuery1->SQL->Text =
+                    "SELECT * FROM `Книги` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+					"` BETWEEN " + Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
+
+        } else {
+            Form1->ADOQuery1->SQL->Text =
+					"SELECT * FROM `Книги` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+                    "` = '" + Form1->Edit1->Text + "'";
+
+        }
+	} else if (Form1->ComboBox1->ItemIndex == 2) {
+		if (Form1->ComboBox2->ItemIndex >= 1 && Form1->ComboBox2->ItemIndex != 2) {
+            Form1->ADOQuery1->SQL->Text =
+                    "SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+                    "` BETWEEN " + Form1->Edit1->Text + " AND " + Form1->Edit2->Text + ";";
+
+		} else if (Form1->ComboBox2->ItemIndex == 2)
+		{
+			Form1->ADOQuery1->SQL->Text =
+					"SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+					"` = '" + Form1->DateTimePicker1->Date + "'";
+		}
+		else {
+			Form1->ADOQuery1->SQL->Text =
+					"SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+					"` = '" + Form1->Edit1->Text + "'";
+		}
+	}
+
+	Form1->ADOQuery1->Active = true;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::DateTimePicker1Change(TObject *Sender)
+{
+	 Form1->ADOQuery1->Active = false;
+	 Form1->ADOQuery1->SQL->Text =
+					"SELECT * FROM `Продажи` WHERE `" + Form1->ComboBox2->Items->Strings[Form1->ComboBox2->ItemIndex] +
+					"` LIKE '%" + Form1->DateTimePicker1->Date + "%'";
+	Form1->ADOQuery1->Active = true;
 }
 //---------------------------------------------------------------------------
 

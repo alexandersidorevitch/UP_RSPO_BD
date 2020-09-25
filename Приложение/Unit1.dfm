@@ -50,6 +50,7 @@ object Form1: TForm1
     Width = 121
     Height = 21
     TabOrder = 3
+    OnChange = Edit2Change
   end
   object DBGrid1: TDBGrid
     Left = 114
@@ -63,6 +64,17 @@ object Form1: TForm1
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+  end
+  object DateTimePicker1: TDateTimePicker
+    Left = 192
+    Top = 50
+    Width = 121
+    Height = 21
+    Date = 44100.000000000000000000
+    Time = 0.005215324075834360
+    TabOrder = 5
+    Visible = False
+    OnChange = DateTimePicker1Change
   end
   object ADOConnection1: TADOConnection
     Connected = True
