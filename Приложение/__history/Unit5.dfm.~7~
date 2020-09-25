@@ -1,7 +1,7 @@
 object Form5: TForm5
   Left = 0
   Top = 0
-  Caption = #1044#1086#1073#1072#1074#1083#1077#1085#1080#1077' '#1080' '#1091#1076#1072#1083#1077#1085#1080#1077' ('#1050#1085#1080#1075#1080')'
+  Caption = 'Form5'
   ClientHeight = 299
   ClientWidth = 635
   Color = clBtnFace
@@ -77,7 +77,7 @@ object Form5: TForm5
   end
   object Button2: TButton
     Left = 280
-    Top = 161
+    Top = 176
     Width = 155
     Height = 51
     Caption = #1059#1076#1072#1083#1080#1090#1100' '#1079#1072#1087#1080#1089#1100

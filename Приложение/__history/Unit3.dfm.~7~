@@ -1,7 +1,7 @@
 object Form3: TForm3
   Left = 0
   Top = 0
-  Caption = #1050#1091#1082#1091
+  Caption = 'Form3'
   ClientHeight = 533
   ClientWidth = 818
   Color = clBtnFace
@@ -55,7 +55,7 @@ object Form3: TForm3
     Top = 460
     Width = 153
     Height = 65
-    Caption = #1055#1086#1080#1089#1082
+    Caption = #1059#1076#1072#1083#1077#1085#1080#1077
     TabOrder = 3
     OnClick = Button2Click
   end
